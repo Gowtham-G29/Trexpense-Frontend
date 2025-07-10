@@ -4,21 +4,36 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import HeroImage from "../assets/HeroImage.jpg";
 import NavBarAuthPage from "../Components/NavBarAuthPage";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../Redux/Auth/Action";
+import Loader from "../Components/Loader";
 
 function RegisterPage() {
+  const dispatch = useDispatch();
+
+  const { auth } = useSelector((store) => store);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const username=e.target.username.value;
-    console.log("Username: ",username)
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const username = e.target.username.value;
+    console.log("loading", auth.loading);
+
+    dispatch(
+      register({
+        name: username,
+        email: email,
+        password: password,
+      })
+    );
   };
 
   return (
+     
     <div className="relative min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden">
-        <NavBarAuthPage/>
+      {auth.loading&&<Loader/>}
+      <NavBarAuthPage />
       <img
         className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "
         src={HeroImage}
@@ -29,7 +44,7 @@ function RegisterPage() {
         <section className="w-full lg:w-1/2 flex items-center justify-center mb-10 lg:mb-0">
           <div className="text-center">
             <p className="hidden lg:block text-4xl font-bold font-serif text-orange-500 drop-shadow-lg ">
-              Start Your Journey 
+              Start Your Journey
             </p>
           </div>
         </section>

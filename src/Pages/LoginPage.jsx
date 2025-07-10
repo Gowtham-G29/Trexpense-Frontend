@@ -14,6 +14,7 @@ function LoginPage() {
     console.log("Email:", email);
     console.log("Password:", password);
   };
+  
 
   return (
     <>
