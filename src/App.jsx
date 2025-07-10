@@ -14,6 +14,8 @@ function App() {
 
   // dispatch(logout())
 
+  console.log(auth)
+
   useEffect(() => {
     dispatch(getUser());
   }, [auth.jwt]);
