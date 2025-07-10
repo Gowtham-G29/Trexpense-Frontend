@@ -1,6 +1,9 @@
 import axios from "axios";
-import { API_BASE_URL } from "../../Services/Api";
+import api, { API_BASE_URL } from "../../Services/Api";
 import {
+    GET_USER_FAILURE,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -51,6 +54,19 @@ export const login = (userData) => async (dispatch) => {
             type: LOGIN_FAILURE,
             payload: error.response.data
         });
+    }
+}
+
+export const getUser=()=>async(dispatch)=>{
+    dispatch({type:GET_USER_REQUEST})
+    try {
+        const {data}=await api.get("/getUser");
+        dispatch({type:GET_USER_SUCCESS,payload:data})
+        
+    } catch (error) {
+
+        dispatch({type:GET_USER_FAILURE,payload:error.message})
+        
     }
 }
 

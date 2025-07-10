@@ -75,8 +75,7 @@ function DashBoard() {
 
 
   return (
-    // Remove this provider when copying and pasting into your project.
-    <DemoProvider >
+    
       <AppProvider
         navigation={NAVIGATION}
         router={router}
@@ -88,7 +87,6 @@ function DashBoard() {
         </DashboardLayout>
         {/* preview-end */}
       </AppProvider>
-    </DemoProvider>
   );
 }
 
