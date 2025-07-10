@@ -1,26 +1,39 @@
-import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import HeroImage from "../assets/HeroImage.jpg";
 import NavBarAuthPage from "../Components/NavBarAuthPage";
 import Loader from "../Components/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { login} from "../Redux/Auth/Action";
 
 function LoginPage() {
+
+  const dispatch=useDispatch();
+
+
+  const {auth}=useSelector((store)=>store)
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
   
+    
+    dispatch(login({
+      email:email,
+      password:password
+    }))
+
+  };
+
+
 
   return (
     <>
       <div className="relative min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden">
         <NavBarAuthPage />
-        {/* <Loader/> */}
+        {auth.loading&&<Loader/>}
         <img
           className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "
           src={HeroImage}

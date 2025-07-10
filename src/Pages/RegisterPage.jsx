@@ -18,7 +18,6 @@ function RegisterPage() {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const username = e.target.username.value;
-    console.log("loading", auth.loading);
 
     dispatch(
       register({
