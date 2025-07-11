@@ -5,7 +5,9 @@ import RegisterPage from "./Pages/RegisterPage";
 import DashBoard from "./Pages/DashBoard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUser } from "./Redux/Auth/Action";
+import { getUser, logout } from "./Redux/Auth/Action";
+import ActivationConfirmationPage from "./Components/ActivationConfirmationPage";
+import MailSentSuccessPage from "./Components/MailSendSuccessPage";
 
 function App() {
   const { auth } = useSelector((store) => store);
@@ -14,7 +16,8 @@ function App() {
 
   // dispatch(logout())
 
-  console.log(auth)
+  console.log(auth);
+  console.log(auth.activationMailSent)
 
   useEffect(() => {
     dispatch(getUser());
@@ -23,19 +26,24 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {!auth.user ? (
+        {auth.data?.isActive ? (
           <>
-            <Route path="/" element={<LandPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-
-            {/* Optionally redirect any unknown route to landing */}
-
+            <Route path="/" element={<DashBoard />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
           <>
-            <Route path="/*" element={<DashBoard />} />
+            <Route path="/" element={<LandPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route
+              path="/activatePage"
+              element={<ActivationConfirmationPage />}
+            />
+            {auth.activationMailSent && (
+              <Route path="/regSuccessPage" element={<MailSentSuccessPage />} />
+            )}
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
       </Routes>

@@ -1,19 +1,51 @@
-import { GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType";
+import {
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAILURE,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    GET_USER_FAILURE,
+    CONFIRM_ACTIVATION_REQUEST,
+    CONFIRM_ACTIVATION_SUCCESS,
+    CONFIRM_ACTIVATION_FAILURE,
+    LOGOUT,
+    SEND_ACTIVATION_MAIL_SUCCESS,
+    SEND_ACTIVATION_MAIL_REQUEST,
+} from "./ActionType";
 
-const initialState={
-    user:null,
-    loading:false,
-    error:null,
-    jwt:null,
-    data:null
-}
+const initialState = {
+    user: null,
+    loading: false,
+    error: null,
+    jwt: null,
+    data: null,
+    activate: false,
+    activationMailSent:false
+};
 
-export const authReducer=(state=initialState, action)=>{
-    switch(action.type){
+export const authReducer = (state = initialState, action) => {
+    switch (action.type) {
+
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:
         case GET_USER_REQUEST:
-            return { ...state, loading: true, error: null };
+        case SEND_ACTIVATION_MAIL_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+
+        case CONFIRM_ACTIVATION_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                activate: false,
+            };
 
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
@@ -22,31 +54,54 @@ export const authReducer=(state=initialState, action)=>{
                 loading: false,
                 error: null,
                 jwt: action.payload.jwt,
-                data: action.payload
+                data: action.payload,
             };
+
+        case CONFIRM_ACTIVATION_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                activate: true,
+            };
+
+        case GET_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload.name,
+                error: null,
+                data: action.payload,
+            };
+
         case REGISTER_FAILURE:
         case LOGIN_FAILURE:
         case GET_USER_FAILURE:
-            return{
+            return {
                 ...state,
-                loading:false,
-                error:action.payload.errorMessage,
-                jwt:null,
-                data:action.payload
-            }
-        case LOGOUT:
-            return initialState
-        case GET_USER_SUCCESS:
-            return{
-                ...state,
-                loading:false,
-                user:action.payload.name,
-                error:null,
-                data:action.payload
+                loading: false,
+                error: action.payload,
+                data: action.payload,
+            };
 
+        case CONFIRM_ACTIVATION_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                activate: false,
+            };
+
+        case SEND_ACTIVATION_MAIL_SUCCESS:
+            return{
+                ...state,
+                activationMailSent:true
             }
+
+        case LOGOUT:
+            return initialState;
 
         default:
             return state;
     }
-}
+};

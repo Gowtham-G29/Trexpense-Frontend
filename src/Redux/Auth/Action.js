@@ -1,6 +1,9 @@
 import axios from "axios";
 import api, { API_BASE_URL } from "../../Services/Api";
 import {
+    CONFIRM_ACTIVATION_FAILURE,
+    CONFIRM_ACTIVATION_REQUEST,
+    CONFIRM_ACTIVATION_SUCCESS,
     GET_USER_FAILURE,
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
@@ -10,7 +13,10 @@ import {
     LOGOUT,
     REGISTER_FAILURE,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    SEND_ACTIVATION_MAIL_FAILURE,
+    SEND_ACTIVATION_MAIL_REQUEST,
+    SEND_ACTIVATION_MAIL_SUCCESS
 } from "./ActionType";
 
 export const register = (userData) => async (dispatch) => {
@@ -26,6 +32,7 @@ export const register = (userData) => async (dispatch) => {
             localStorage.setItem("jwt", data.jwt);
             dispatch({ type: REGISTER_SUCCESS, payload: data });
         }
+        dispatch(sendActivationMail(userData.email));
 
     } catch (error) {
         dispatch({
@@ -74,5 +81,48 @@ export const getUser=()=>async(dispatch)=>{
 export const logout = () => async (dispatch) => {
     dispatch({ type: LOGOUT });
     localStorage.clear();
+}
+
+export const sendActivationMail=(userEmail)=>async(dispatch)=>{
+    dispatch({type:SEND_ACTIVATION_MAIL_REQUEST});
+    try {
+
+        const response=await api.post("/activateAccount",null,{
+            params:{
+                email:userEmail
+            }
+        })
+        console.log("Response ",response.data);
+        dispatch({type:SEND_ACTIVATION_MAIL_SUCCESS,payload:response.data})
+        
+    } catch (error) {
+        console.log(error)
+         dispatch({
+            type: SEND_ACTIVATION_MAIL_FAILURE,
+            payload: error.response.data
+        });
+        
+    }
+}
+
+export const confirmAccountActivation=(token)=>async(dispatch)=>{
+    dispatch({type:CONFIRM_ACTIVATION_REQUEST});
+    try{
+        const response =await api.post("/confirmActivation",null,{
+            params:{
+                activationToken:token
+            }
+        })
+        dispatch({type:CONFIRM_ACTIVATION_SUCCESS})
+        console.log(response)
+
+    }catch(error){
+        dispatch({
+            type:CONFIRM_ACTIVATION_FAILURE,
+            payload:error.response?.message
+        })
+
+    }
+
 }
 

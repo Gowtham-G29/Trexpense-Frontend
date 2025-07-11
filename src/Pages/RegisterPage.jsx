@@ -1,7 +1,7 @@
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HeroImage from "../assets/HeroImage.jpg";
 import NavBarAuthPage from "../Components/NavBarAuthPage";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,28 +10,36 @@ import Loader from "../Components/Loader";
 
 function RegisterPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { auth } = useSelector((store) => store);
-
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     const email = e.target.email.value;
     const password = e.target.password.value;
     const username = e.target.username.value;
 
-    dispatch(
-      register({
-        name: username,
-        email: email,
-        password: password,
-      })
-    );
+    try {
+      dispatch(
+        register({
+          name: username,
+          email: email,
+          password: password,
+        })
+      );
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
   };
 
+  if (auth.activationMailSent) {
+    navigate("/regSuccessPage");
+  }
+
   return (
-     
     <div className="relative min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden">
-      {auth.loading&&<Loader/>}
+      {auth.loading && <Loader />}
       <NavBarAuthPage />
       <img
         className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "
