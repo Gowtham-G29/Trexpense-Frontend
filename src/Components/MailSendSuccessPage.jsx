@@ -2,6 +2,7 @@ import { Container, Typography, Button } from "@mui/material";
 import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
 import { useNavigate } from "react-router-dom";
 import HeroImage from "../assets/HeroImage.jpg";
+import NavBarAuthPage from "./NavBarAuthPage";
 
 
 function MailSentSuccessPage() {
@@ -13,6 +14,7 @@ function MailSentSuccessPage() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-grey-100 p-4 z-10">
+        <NavBarAuthPage/>
       <img
         className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "
         src={HeroImage}
@@ -42,8 +44,8 @@ function MailSentSuccessPage() {
             onClick={handleGoToLogin}
             sx={{
               mt: 3,
-              bgcolor: "#3b82f6", // Tailwind blue-500
-              "&:hover": { bgcolor: "#2563eb" }, // Tailwind blue-600
+              bgcolor: "#3b82f6", 
+              "&:hover": { bgcolor: "#2563eb" }, 
             }}
           >
             Go to Home and Login!

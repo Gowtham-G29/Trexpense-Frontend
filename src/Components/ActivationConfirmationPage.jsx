@@ -7,8 +7,7 @@ import LockPersonIcon from "@mui/icons-material/LockPerson";
 import { confirmAccountActivation } from "../Redux/Auth/Action";
 import Loader from "./Loader";
 import HeroImage from "../assets/HeroImage.jpg";
-
-
+import NavBarAuthPage from "./NavBarAuthPage";
 
 function ActivationConfirmationPage() {
   const { auth } = useSelector((store) => store);
@@ -29,6 +28,8 @@ function ActivationConfirmationPage() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-slate-100 p-4 z-10">
+      <NavBarAuthPage />
+
       <img
         className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "
         src={HeroImage}
@@ -44,7 +45,7 @@ function ActivationConfirmationPage() {
             boxShadow: 3,
             p: 4,
             textAlign: "center",
-            position:"relative"
+            position: "relative",
           }}
         >
           <div className="flex flex-col items-center space-y-4">
@@ -83,8 +84,7 @@ function ActivationConfirmationPage() {
             boxShadow: 3,
             p: 4,
             textAlign: "center",
-           position:"relative"
-
+            position: "relative",
           }}
         >
           <div className="flex flex-col items-center space-y-4">

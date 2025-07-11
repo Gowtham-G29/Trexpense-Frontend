@@ -14,6 +14,12 @@ import {
     REGISTER_FAILURE,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
+    RESET_PASSWORD_FAILURE,
+    RESET_PASSWORD_MAIL_SEND_FAILURE,
+    RESET_PASSWORD_MAIL_SEND_REQUEST,
+    RESET_PASSWORD_MAIL_SEND_SUCCESS,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
     SEND_ACTIVATION_MAIL_FAILURE,
     SEND_ACTIVATION_MAIL_REQUEST,
     SEND_ACTIVATION_MAIL_SUCCESS
@@ -108,13 +114,12 @@ export const sendActivationMail=(userEmail)=>async(dispatch)=>{
 export const confirmAccountActivation=(token)=>async(dispatch)=>{
     dispatch({type:CONFIRM_ACTIVATION_REQUEST});
     try{
-        const response =await api.post("/confirmActivation",null,{
+        await api.post("/confirmActivation",null,{
             params:{
                 activationToken:token
             }
         })
         dispatch({type:CONFIRM_ACTIVATION_SUCCESS})
-        console.log(response)
 
     }catch(error){
         dispatch({
@@ -125,4 +130,43 @@ export const confirmAccountActivation=(token)=>async(dispatch)=>{
     }
 
 }
+
+export const sendResetPasswordMail=(email)=>async(dispatch)=>{
+    dispatch({type:RESET_PASSWORD_MAIL_SEND_REQUEST})
+    try {
+        const {data}=await axios.post(`${API_BASE_URL}/sentPasswordResetEmail`,null,{
+            params:{
+                email:email
+            }
+        }
+          );
+
+        dispatch({type:RESET_PASSWORD_MAIL_SEND_SUCCESS,payload:data})
+        
+    } catch (error) {
+        console.log(error)
+
+        dispatch({type:RESET_PASSWORD_MAIL_SEND_FAILURE,payload:error.response.data})
+    }
+}
+
+export const passwordReset=(email,resetToken,newPassword)=>async(dispatch)=>{
+    dispatch({type:RESET_PASSWORD_REQUEST})
+    try {
+
+        const {data}=axios.patch(`${API_BASE_URL}/resetPassword`,null,{
+            params:{
+                email:email,
+                resetToken:resetToken,
+                newPassword:newPassword
+            }
+        })
+        console.log(data);
+        dispatch({type:RESET_PASSWORD_SUCCESS,payload:data})
+        
+    } catch (error) {
+        dispatch({type:RESET_PASSWORD_FAILURE,payload:error.response.data})
+    }
+}
+
 

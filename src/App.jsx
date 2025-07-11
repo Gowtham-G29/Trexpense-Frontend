@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { getUser, logout } from "./Redux/Auth/Action";
 import ActivationConfirmationPage from "./Components/ActivationConfirmationPage";
 import MailSentSuccessPage from "./Components/MailSendSuccessPage";
+import ForgotPasswordPage from "./Components/ForgotPasswordPage";
+import ResetPasswordPage from "./Components/ResetPasswordPage";
 
 function App() {
   const { auth } = useSelector((store) => store);
@@ -17,7 +19,6 @@ function App() {
   // dispatch(logout())
 
   console.log(auth);
-  console.log(auth.activationMailSent)
 
   useEffect(() => {
     dispatch(getUser());
@@ -40,6 +41,8 @@ function App() {
               path="/activatePage"
               element={<ActivationConfirmationPage />}
             />
+            <Route path="/forgotPassword" element={<ForgotPasswordPage/>}/>
+            <Route path="/resetPassword" element={<ResetPasswordPage/>}/>
             {auth.activationMailSent && (
               <Route path="/regSuccessPage" element={<MailSentSuccessPage />} />
             )}

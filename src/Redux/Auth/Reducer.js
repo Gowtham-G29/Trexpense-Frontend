@@ -14,6 +14,12 @@ import {
     LOGOUT,
     SEND_ACTIVATION_MAIL_SUCCESS,
     SEND_ACTIVATION_MAIL_REQUEST,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_FAILURE,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_MAIL_SEND_REQUEST,
+    RESET_PASSWORD_MAIL_SEND_FAILURE,
+    RESET_PASSWORD_MAIL_SEND_SUCCESS,
 } from "./ActionType";
 
 const initialState = {
@@ -23,7 +29,9 @@ const initialState = {
     jwt: null,
     data: null,
     activate: false,
-    activationMailSent:false
+    activationMailSent:false,
+    passwordResetMailSent:false,
+    passwordResetSuccessful:false
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -33,6 +41,7 @@ export const authReducer = (state = initialState, action) => {
         case LOGIN_REQUEST:
         case GET_USER_REQUEST:
         case SEND_ACTIVATION_MAIL_REQUEST:
+        case RESET_PASSWORD_MAIL_SEND_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -77,6 +86,7 @@ export const authReducer = (state = initialState, action) => {
         case REGISTER_FAILURE:
         case LOGIN_FAILURE:
         case GET_USER_FAILURE:
+        case RESET_PASSWORD_MAIL_SEND_FAILURE:
             return {
                 ...state,
                 loading: false,
@@ -96,6 +106,12 @@ export const authReducer = (state = initialState, action) => {
             return{
                 ...state,
                 activationMailSent:true
+            }
+        case RESET_PASSWORD_MAIL_SEND_SUCCESS:
+            return{
+                ...state,
+                passwordResetMailSent:true,
+                loading:false
             }
 
         case LOGOUT:
