@@ -1,13 +1,33 @@
 import Box from "@mui/material/Box";
 import Logo from "../assets/Logo.png";
 import TextField from "@mui/material/TextField";
+import { sentContactUsMail } from "../Services/Api";
+import { useState } from "react";
+import LoaderMini from "./LoaderMini";
 
 const Footer = () => {
-  const handleMessage = (e) => {
+
+  const [loading, setLoading] = useState(false);
+  const [mailSentSuccess, setMailSentSuccess] = useState(false);
+
+  const handleMessage = async(e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const message = e.target.message.value;
-    console.log(email, message);
+
+    setLoading(true);
+    try {
+    const response=await sentContactUsMail({ email, message });
+    setLoading(false);
+    if (response) {
+      setMailSentSuccess(true);
+      e.target.reset();
+    }
+  } catch (error) {
+      setLoading(false);
+      console.error("Error sending message:", error);
+      alert("Failed to send message. Please try again later.");
+    }
   };
 
   return (
@@ -149,7 +169,8 @@ const Footer = () => {
               <Box sx={{ width: "100%" }}>
                 <TextField
                   fullWidth
-                  label="Email ID"
+                  required
+                  label="Your Email"
                   id="email"
                   name="email"
                   variant="outlined"
@@ -158,36 +179,50 @@ const Footer = () => {
               <Box sx={{ width: "100%" }}>
                 <TextField
                   fullWidth
+                  required
+                  multiline
                   label="Message"
                   id="message"
                   name="message"
                   type="message"
                   variant="outlined"
+                  maxRows={5}
                 />
               </Box>
-              <button
-                type="submit"
-                className="bg-orange-500 hover:bg-orange-400 text-white w-full rounded-xl py-3 font-serif font-bold transition duration-300"
-              >
-                <div className="flex items-center justify-center gap-x-3">
-                  <p className="text-lg">Send</p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.25"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-send-icon lucide-send"
-                  >
-                    <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-                    <path d="m21.854 2.147-10.94 10.939" />
-                  </svg>
-                </div>
-              </button>
+            {!loading ? (
+              mailSentSuccess ? (
+                <p className="text-green-500 text-center font-bold">Your query is sent to support team successfully! We will contact you soon.</p>
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-orange-500 hover:bg-orange-400 text-white w-full rounded-xl py-3 font-serif font-bold transition duration-300"
+                >
+                  <div className="flex items-center justify-center gap-x-3">
+                    <p className="text-lg">Send</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.25"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-send-icon lucide-send"
+                    >
+                      <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+                      <path d="m21.854 2.147-10.94 10.939" />
+                    </svg>
+                  </div>
+                </button>
+              )
+            ) : (
+              <div className="flex items-center justify-center">
+                <LoaderMini />
+              </div>
+            )}
+              
             </form>
           </div>
         </div>
