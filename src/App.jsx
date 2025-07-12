@@ -5,7 +5,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import DashBoard from "./Pages/DashBoard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUser, logout } from "./Redux/Auth/Action";
+import { getUser } from "./Redux/Auth/Action";
 import ActivationConfirmationPage from "./Components/ActivationConfirmationPage";
 import MailSentSuccessPage from "./Components/MailSendSuccessPage";
 import ForgotPasswordPage from "./Components/ForgotPasswordPage";
@@ -16,7 +16,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  // dispatch(logout())
+
 
   console.log(auth);
 
