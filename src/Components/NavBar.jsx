@@ -7,7 +7,7 @@ const NavBar = () => {
 
   return (
     <div className="overflow-x-hidden bg-gray-50">
-      <header className="lg:py-1 md:py-6 sm:py-4 bg-grey-100">
+      <header className="lg:py-0 md:py-6 sm:py-4 bg-grey-100">
         <div className="container px-4 mx-auto sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex-shrink-0">
