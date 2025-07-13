@@ -1,64 +1,94 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useEffect, useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-// Fix default icon paths for Leaflet
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
 
-// Custom component to handle current location
-function CurrentLocationMarker() {
-  const [position, setPosition] = useState(null);
+const CenterMap = ({ currentLocation }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (!navigator.geolocation) {
-      console.error("Geolocation not supported");
-      return;
+    if (currentLocation) {
+      map.setView(currentLocation, 13);
     }
+  }, [currentLocation, map]);
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = [pos.coords.latitude, pos.coords.longitude];
-        setPosition(coords);
-        map.setView(coords, 14); // Center map on user's location
-        console.log("Current position:", coords);
-      },
-      (err) => {
-        console.error("Geolocation error:", err);
-      }
-    );
-  }, [map]);
+  return null;
+};
 
-  return position ? (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
-  ) : null;
-}
+const MapComponent = () => {
+  const [currentLocation, setCurrentLocation] = useState(null);
 
-function MapComponent() {
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation([latitude, longitude]);
+        },
+        (error) => {
+          console.error("Error getting location", error);
+          setCurrentLocation([0, 0]);
+        }
+      );
+    } else {
+      setCurrentLocation([0, 0]);
+    }
+  }, []);
+
+  // const customIcon1 = new L.Icon({
+  //   iconUrl: doctorMarker,
+  //   iconSize: [30, 50],
+  //   iconAnchor: [15, 50],
+  // });
+
+  // const customIcon2 = new L.Icon({
+  //   iconUrl: currentLocationMarker,
+  //   iconSize: [40, 60],
+  //   iconAnchor: [15, 50],
+  // });
+
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      <MapContainer
-        center={[20.5937, 78.9629]} // Default center (India)
-        zoom={5}
-        scrollWheelZoom={false}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <CurrentLocationMarker />
-      </MapContainer>
+    <div style={{ height: "82vh", width: "100%" }}>
+      {currentLocation ? (
+        <MapContainer
+          center={currentLocation}
+          zoom={13}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={currentLocation} >
+            <Popup>
+              You are here <br />
+            </Popup>
+          </Marker>
+          {/* {doctors.map((doctor, index) => {
+            const { latitude, longitude } = doctor.geolocation;
+            return (
+              <Marker
+                key={index}
+                position={[latitude, longitude]}
+                icon={customIcon1}
+              >
+                <Popup>
+                  <strong>Dr: {doctor.fullName}</strong> <br />
+                  {doctor.specialization}
+                  <br />
+                  {doctor.clinicName} <br />
+                </Popup>
+              </Marker>
+            );
+          })} */}
+          <CenterMap currentLocation={currentLocation} />
+        </MapContainer>
+      ) : (
+        <p>hello</p>
+      )}
     </div>
   );
-}
+};
 
 export default MapComponent;

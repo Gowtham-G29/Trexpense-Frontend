@@ -54,7 +54,7 @@ export default function ExpenseUpdateFormDrawer({ setOpen }) {
           </Button>
         </Box>
 
-        <ExpenseUpdateForm />
+        <ExpenseUpdateForm setOpen={setOpen}/>
 
       
       </Box>
