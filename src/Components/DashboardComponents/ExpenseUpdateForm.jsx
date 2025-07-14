@@ -3,8 +3,9 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import LocationPickerMap from "./LocationPicker"; // You must have this component
 // import { getAddressFromCoordinates } from "../utils"; // Optional, if used separately
 import imageCompression from "browser-image-compression";
+import { Button } from "@mui/material";
 
-function ExpenseUpdateForm({ setOpen }) {
+function ExpenseUpdateForm({ setOpen, setOpenSuccessSnackBar }) {
   const [openLocationPicker, setOpenLocationPicker] = useState(false);
   const [pendingFormData, setPendingFormData] = useState(null);
 
@@ -29,8 +30,8 @@ function ExpenseUpdateForm({ setOpen }) {
     if (!file) return;
 
     const options = {
-      maxSizeMB: 0.2, 
-      maxWidthOrHeight: 194, 
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 194,
       useWebWorker: true,
     };
 
@@ -67,6 +68,7 @@ function ExpenseUpdateForm({ setOpen }) {
           setOpenLocationPicker={setOpenLocationPicker}
           pendingFormData={pendingFormData}
           setOpen={setOpen}
+          setOpenSuccessSnackBar={setOpenSuccessSnackBar}
         />
       ) : (
         <>
@@ -123,10 +125,27 @@ function ExpenseUpdateForm({ setOpen }) {
             </div>
 
             <div className="mb-4 flex flex-col items-center justify-between cursor-pointer">
-              <label htmlFor="image" className="block text-gray-700 mb-1">
-                <FileUploadIcon className="inline mr-2 text-blue-400 text-3xl" />
-                Upload Image
-              </label>
+              <Button
+                variant="outlined"
+                component="label"
+                sx={{
+                  fontWeight: 600,
+                  color: "#1976d2",
+                  borderColor: "#1976d2",
+
+                  ":hover": {
+                    backgroundColor: "#1976d2",
+                  },
+                }}
+              >
+                <label
+                  htmlFor="image"
+                  className=" flex justify-center items-center text-gray-700 mb-1"
+                >
+                  <FileUploadIcon className="inline mr-2 text-blue-400 text-3xl hover:text-white" />
+                  Upload Image
+                </label>
+              </Button>
               <input
                 type="file"
                 name="image"
