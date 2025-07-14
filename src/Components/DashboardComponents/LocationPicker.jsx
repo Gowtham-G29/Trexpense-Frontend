@@ -35,7 +35,12 @@ const currentLocationIcon = new L.Icon({
   iconAnchor: [17, 50],
 });
 
-const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) => {
+const LocationPickerMap = ({
+  pendingFormData,
+  setOpenLocationPicker,
+  setOpen,
+  setOpenSuccessSnackBar,
+}) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [pendingLocation, setPendingLocation] = useState(null);
 
@@ -81,11 +86,8 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
         pendingLocation.lng
       );
       if (pendingLocation && address) {
+        pendingFormData.append("latitude", JSON.stringify(pendingLocation.lat));
         pendingFormData.append(
-          "latitude",
-          JSON.stringify(pendingLocation.lat)
-        );
-          pendingFormData.append(
           "longitude",
           JSON.stringify(pendingLocation.lng)
         );
@@ -94,6 +96,7 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
       }
 
       setPendingLocation(null);
+      setOpenSuccessSnackBar(true);
     }
   };
 
@@ -108,7 +111,9 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
         onClose={() => handleLocationConfirmation(false)}
       >
         <DialogTitle>Confirmation</DialogTitle>
-        <DialogContent>Do you want to set this location with expense record?</DialogContent>
+        <DialogContent>
+          Do you want to set this location with expense record?
+        </DialogContent>
         <DialogActions>
           <Button
             onClick={() => handleLocationConfirmation(false)}

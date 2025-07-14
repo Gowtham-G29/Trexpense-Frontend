@@ -8,14 +8,13 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteCustomerExpense } from "../../Redux/Customer/Action";
 import ExpenseCardDialog from "./ExpenseCardDialog";
 import Loader from "../Loader";
 
-export default function ExpenseCard({ expense }) {
+export default function ExpenseCard({ expense ,setOpenDeleteSnackBar}) {
   const dispatch = useDispatch();
-  const { customer } = useSelector((store) => store);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -30,6 +29,7 @@ export default function ExpenseCard({ expense }) {
 
   const handleDelete = () => {
     dispatch(deleteCustomerExpense(expense.id));
+    setOpenDeleteSnackBar(true);
     handleMenuClose();
   };
 
@@ -42,7 +42,6 @@ export default function ExpenseCard({ expense }) {
       {openDialog && (
         <ExpenseCardDialog setOpenDialog={setOpenDialog} data={expense} />
       )}
-      {customer.loading && <Loader />}
       <Card
         key={expense.id}
         sx={{

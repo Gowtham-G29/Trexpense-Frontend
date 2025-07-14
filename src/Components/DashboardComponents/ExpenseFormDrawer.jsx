@@ -10,7 +10,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import ExpenseUpdateForm from "./ExpenseUpdateForm";
 
-export default function ExpenseUpdateFormDrawer({ setOpen }) {
+export default function ExpenseUpdateFormDrawer({ setOpen ,setOpenSuccessSnackBar }) {
   const toggleDrawer = (isOpen) => () => {
     setOpen(isOpen);
   };
@@ -53,7 +53,7 @@ export default function ExpenseUpdateFormDrawer({ setOpen }) {
           </Button>
         </Box>
 
-        <ExpenseUpdateForm setOpen={setOpen}/>
+        <ExpenseUpdateForm setOpen={setOpen} setOpenSuccessSnackBar={setOpenSuccessSnackBar}/>
 
       
       </Box>

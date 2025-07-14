@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import DashboardNavBar from "../Components/DashboardComponents/DashboardNavBar";
 import SideDrawer from "../Components/DashboardComponents/SideDrawer";
 import MapComponent from "../Components/DashboardComponents/MapComponent";
@@ -6,12 +5,19 @@ import ExpenseCard from "../Components/DashboardComponents/ExpensesCard";
 import AnalyticsBarChart from "../Components/DashboardComponents/AnalyticsBarChart";
 import { useState } from "react";
 import ProfilePage from "../Components/DashboardComponents/ProfilePage";
-import ExpenseUpdateForm from "../Components/DashboardComponents/ExpenseUpdateForm";
 import ExpenseUpdateFormDrawer from "../Components/DashboardComponents/ExpenseFormDrawer";
 import { useSelector } from "react-redux";
+import ExpenseSavedSnackbars from "../Components/DashboardComponents/ExpenseSavedSnackBar";
+
+import ExpenseDeleteSnackbars from "../Components/DashboardComponents/ExpenseDeleteSnackBar";
+import ProfileUpdateSuccessSnackBar from "../Components/DashboardComponents/ProfileUpdateSuccessSnackBar";
 
 function DashBoard() {
   const [clickedComponent, setClickedComponent] = useState("map");
+  const [openSuccessSnackBar, setOpenSuccessSnackBar] = useState(false);
+  const [openDeleteSnackBar, setOpenDeleteSnackBar] = useState(false);
+  const [openProfileUpdateSnackBar, setOpenProfileUpdateSnackBar] =
+    useState(false);
   const [open, setOpen] = useState(false);
 
   const { customer } = useSelector((store) => store);
@@ -49,7 +55,11 @@ function DashBoard() {
                 </p>
               ) : (
                 (customer?.expenses || []).map((expense) => (
-                  <ExpenseCard expense={expense} key={expense.id} />
+                  <ExpenseCard
+                    expense={expense}
+                    key={expense.id}
+                    setOpenDeleteSnackBar={setOpenDeleteSnackBar}
+                  />
                 ))
               )}
             </div>
@@ -63,14 +73,38 @@ function DashBoard() {
         )}
         {clickedComponent === "account" && (
           <div className="relative flex-1 pt-20 pb-38 h-screen overflow-y-auto lg:ml-20 md:ml-1 md:pb-20">
-            <ProfilePage />
+            <ProfilePage setOpen={setOpenProfileUpdateSnackBar} />
           </div>
         )}
 
         {open && (
           <div className="fixed inset-0 z-50 flex items-center justify-center ">
-            <ExpenseUpdateFormDrawer setOpen={setOpen} />
+            <ExpenseUpdateFormDrawer
+              setOpen={setOpen}
+              setOpenSuccessSnackBar={setOpenSuccessSnackBar}
+            />
           </div>
+        )}
+
+        {openSuccessSnackBar && (
+          <ExpenseSavedSnackbars
+            open={openSuccessSnackBar}
+            setOpenSuccessSnackBar={setOpenSuccessSnackBar}
+          />
+        )}
+
+        {openDeleteSnackBar && (
+          <ExpenseDeleteSnackbars
+            setOpenDeleteSnackBar={setOpenDeleteSnackBar}
+            open={openDeleteSnackBar}
+          />
+        )}
+
+        {openProfileUpdateSnackBar && (
+          <ProfileUpdateSuccessSnackBar
+            setOpenProfileUpdateSnackBar={setOpenProfileUpdateSnackBar}
+            open={openProfileUpdateSnackBar}
+          />
         )}
       </div>
     </div>
