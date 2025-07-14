@@ -30,7 +30,7 @@ function ExpenseUpdateForm({setOpen}) {
     setOpenLocationPicker(true);
     const { amount, purpose, note, image } = formData;
 
-    data.append("amount", amount);
+    data.append("amount", Number(amount));
     data.append("purpose", purpose);
     data.append("note", note);
 

@@ -18,6 +18,8 @@ import {
 import pinLocation from "../../assets/pin2.png";
 import currentLocationMarker from "../../assets/currentLocation2.png";
 import { getAddressFromCoordinates } from "../../Services/Api";
+import { useDispatch } from "react-redux";
+import { setCustomerExpenses } from "../../Redux/Customer/Action";
 
 // Custom icon for clicked location
 const clickedLocationIcon = new L.Icon({
@@ -39,6 +41,8 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
 
   const [finalLocation, setFinalLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -72,20 +76,22 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
     if (confirmed) {
       setFinalLocation(pendingLocation);
 
-      const response = await getAddressFromCoordinates(
+      const address = await getAddressFromCoordinates(
         pendingLocation.lat,
         pendingLocation.lng
       );
-      if (pendingLocation && response) {
+      if (pendingLocation && address) {
         pendingFormData.append(
-          "locationCoordinates",
-          JSON.stringify(pendingLocation)
+          "latitude",
+          JSON.stringify(pendingLocation.lat)
         );
-        pendingFormData.append("address", response);
-        console.log(
-          "data in LocationPickerMap:",
-          Array.from(pendingFormData.entries())
+          pendingFormData.append(
+          "longitude",
+          JSON.stringify(pendingLocation.lng)
         );
+        pendingFormData.append("address", address);
+        // console.log("Final Form Data:", Array.from(pendingFormData.entries()));
+        dispatch(setCustomerExpenses(pendingFormData));
       }
 
       setPendingLocation(null);
