@@ -10,18 +10,19 @@ import ActivationConfirmationPage from "./Components/ActivationConfirmationPage"
 import MailSentSuccessPage from "./Components/MailSendSuccessPage";
 import ForgotPasswordPage from "./Components/ForgotPasswordPage";
 import ResetPasswordPage from "./Components/ResetPasswordPage";
+import { getCustomerExpenses } from "./Redux/Customer/Action";
 
 function App() {
-  const { auth } = useSelector((store) => store);
+  const { auth ,customer} = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
-
-
   console.log(auth);
+  console.log(customer);
 
   useEffect(() => {
     dispatch(getUser());
+    dispatch(getCustomerExpenses());
   }, [auth.jwt]);
 
   return (
@@ -41,8 +42,8 @@ function App() {
               path="/activatePage"
               element={<ActivationConfirmationPage />}
             />
-            <Route path="/forgotPassword" element={<ForgotPasswordPage/>}/>
-            <Route path="/resetPassword" element={<ResetPasswordPage/>}/>
+            <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+            <Route path="/resetPassword" element={<ResetPasswordPage />} />
             {auth.activationMailSent && (
               <Route path="/regSuccessPage" element={<MailSentSuccessPage />} />
             )}
