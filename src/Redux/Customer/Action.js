@@ -1,5 +1,5 @@
 import api from "../../Services/Api";
-import { DELETE_CUSTOMER_EXPENSES_FAILURE, DELETE_CUSTOMER_EXPENSES_REQUEST, DELETE_CUSTOMER_EXPENSES_SUCCESS, GET_CUSTOMER_EXPENSES_FAILURE, GET_CUSTOMER_EXPENSES_REQUEST, GET_CUSTOMER_EXPENSES_SUCCESS } from "./ActionType";
+import { DELETE_CUSTOMER_EXPENSES_FAILURE, DELETE_CUSTOMER_EXPENSES_REQUEST, DELETE_CUSTOMER_EXPENSES_SUCCESS, GET_CUSTOMER_DETAILS_FAILURE, GET_CUSTOMER_DETAILS_REQUEST, GET_CUSTOMER_DETAILS_SUCCESS, GET_CUSTOMER_EXPENSES_FAILURE, GET_CUSTOMER_EXPENSES_REQUEST, GET_CUSTOMER_EXPENSES_SUCCESS, UPDATE_CUSTOMER_PROFILE_FAILURE, UPDATE_CUSTOMER_PROFILE_REQUEST, UPDATE_CUSTOMER_PROFILE_SUCCESS } from "./ActionType";
 
 
 
@@ -56,4 +56,39 @@ export const deleteCustomerExpense = (expenseId) => async (dispatch) => {
         dispatch({ type: DELETE_CUSTOMER_EXPENSES_FAILURE, payload: error.response?.message })
 
     }
+}
+
+export const getCustomerData = () => async (dispatch) => {
+    dispatch({ type: GET_CUSTOMER_DETAILS_REQUEST });
+    try {
+        const { data } = await api.get("/getUserProfile",);
+        console.log(data);
+        dispatch({ type: GET_CUSTOMER_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+        dispatch({
+            type: GET_CUSTOMER_DETAILS_FAILURE,
+            payload: error?.response?.message
+        })
+
+    }
+
+}
+
+export const updateUserProfile = (data) => async (dispatch) => {
+    dispatch({ type: UPDATE_CUSTOMER_PROFILE_REQUEST })
+    try {
+        await api.patch("/updateProfileImage", data);
+        dispatch({
+            type: UPDATE_CUSTOMER_PROFILE_SUCCESS
+        })
+        dispatch(getCustomerData());
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CUSTOMER_PROFILE_FAILURE,
+            payload: error?.response?.message
+        })
+
+    }
+
 }
