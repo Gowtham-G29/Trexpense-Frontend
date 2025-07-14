@@ -10,7 +10,7 @@ import ActivationConfirmationPage from "./Components/ActivationConfirmationPage"
 import MailSentSuccessPage from "./Components/MailSendSuccessPage";
 import ForgotPasswordPage from "./Components/ForgotPasswordPage";
 import ResetPasswordPage from "./Components/ResetPasswordPage";
-import { getCustomerExpenses } from "./Redux/Customer/Action";
+import { getCustomerData, getCustomerExpenses } from "./Redux/Customer/Action";
 
 function App() {
   const { auth ,customer} = useSelector((store) => store);
@@ -18,11 +18,12 @@ function App() {
   const dispatch = useDispatch();
 
   console.log(auth);
-  console.log(customer);
+  console.log("customer",customer);
 
   useEffect(() => {
     dispatch(getUser());
     dispatch(getCustomerExpenses());
+    dispatch(getCustomerData())
   }, [auth.jwt]);
 
   return (
