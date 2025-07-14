@@ -67,8 +67,8 @@ function ForgotPasswordPage() {
               type="submit"
               variant="contained"
               sx={{
-                bgcolor: "#3b82f6", // Tailwind blue-500
-                "&:hover": { bgcolor: "#2563eb" }, // Tailwind blue-600
+                bgcolor: "#3b82f6", 
+                "&:hover": { bgcolor: "#2563eb" },
               }}
             >
               Send Reset Link
