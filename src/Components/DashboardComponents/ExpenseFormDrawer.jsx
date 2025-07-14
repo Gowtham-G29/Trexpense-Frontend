@@ -47,7 +47,6 @@ export default function ExpenseUpdateFormDrawer({ setOpen }) {
           margin: "0 auto",
         }}
       >
-        {/* Header */}
         <Box className="flex justify-end  items-center mb-4">
           <Button onClick={toggleDrawer(false)} variant="contained" color="error" sx={{":hover": { backgroundColor: "orange" }}}>
             <CloseIcon/>

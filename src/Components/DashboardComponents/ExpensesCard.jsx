@@ -1,49 +1,133 @@
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 
+import CardContent from "@mui/material/CardContent";
 
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import IconButton from "@mui/material/IconButton";
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import HeroImage from '../../Assets/HeroImage.jpg'; // Adjust the path as necessary
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Divider, Menu, MenuItem } from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCustomerExpense } from "../../Redux/Customer/Action";
+import ExpenseCardDialog from "./ExpenseCardDialog";
+import Loader from "../Loader";
 
-export default function ExpenseCard() {
+export default function ExpenseCard({ expense }) {
+  const dispatch = useDispatch();
+  const { customer } = useSelector((store) => store);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteCustomerExpense(expense.id));
+    handleMenuClose();
+  };
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image={HeroImage}
-        alt="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      {openDialog && (
+        <ExpenseCardDialog setOpenDialog={setOpenDialog} data={expense} />
+      )}
+      {customer.loading && <Loader />}
+      <Card
+        key={expense.id}
+        sx={{
+          maxWidth: 345,
+          marginBottom: 2,
+          boxShadow: "0 4px 8px rgba(255, 165, 0, 0.4)",
+          borderRadius: 3,
+          transition: "transform 0.2s, box-shadow 0.2s",
+          "&:hover": {
+            transform: "scale(1.02)",
+            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+      >
+        <CardHeader
+          action={
+            <>
+              <IconButton onClick={handleMenuOpen}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                PaperProps={{
+                  sx: {
+                    backgroundColor: "#f5f5f5",
+                    color: "black",
+                    borderRadius: "8px",
+                    p: 0,
+                    minWidth: "100px",
+                    ":hover": {
+                      backgroundColor: "#CD484C",
+                      color: "white",
+                    },
+                  },
+                }}
+              >
+                <MenuItem
+                  onClick={() => handleDelete(expense.id)}
+                  sx={{
+                    fontSize: "12px",
+                    padding: "4px 8px",
+                    minHeight: "30px",
+                    paddingLeft: "30px",
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </Menu>
+            </>
+          }
+          title={expense.purpose}
+          subheader={new Date(expense.createdAt).toLocaleString()}
+          sx={{
+            fontFamily: "serif",
+            fontStyle: "italic",
+            fontWeight: "30px",
+          }}
+        />
+
+        <Divider />
+
+        <CardContent
+          sx={{
+            width: "250px",
+            height: "130px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "normal",
+          }}
+        >
+          <p className=" flex flex-col justify-between items-center gap-4  pt-6 font-bold">
+            <p className="flex justify-around items-center text-slate-600 gap-2 ">
+              <p className="text-slate-600 ">Amount:</p> ₹{expense.amount}
+            </p>
+            <span
+              className="hover:underline text-orange-400 font-serif text-sm"
+              onClick={handleDialogOpen}
+            >
+              View more
+            </span>
+          </p>
+        </CardContent>
+      </Card>
+    </>
   );
 }

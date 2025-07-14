@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
+import Money from "../../assets/money.png";
+import L from "leaflet";
+import { useSelector } from "react-redux";
 
 const CenterMap = ({ currentLocation }) => {
   const map = useMap();
@@ -18,6 +21,9 @@ const CenterMap = ({ currentLocation }) => {
 const MapComponent = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
 
+  const { customer } = useSelector((store) => store);
+
+  console.log("cus", customer.expenses);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -36,17 +42,11 @@ const MapComponent = () => {
     }
   }, []);
 
-  // const customIcon1 = new L.Icon({
-  //   iconUrl: doctorMarker,
-  //   iconSize: [30, 50],
-  //   iconAnchor: [15, 50],
-  // });
-
-  // const customIcon2 = new L.Icon({
-  //   iconUrl: currentLocationMarker,
-  //   iconSize: [40, 60],
-  //   iconAnchor: [15, 50],
-  // });
+  const customIcon1 = new L.Icon({
+    iconUrl: Money,
+    iconSize: [40, 60],
+    iconAnchor: [15, 50],
+  });
 
   return (
     <div style={{ height: "82vh", width: "100%" }}>
@@ -60,28 +60,53 @@ const MapComponent = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={currentLocation} >
+          <Marker position={currentLocation}>
             <Popup>
               You are here <br />
             </Popup>
           </Marker>
-          {/* {doctors.map((doctor, index) => {
-            const { latitude, longitude } = doctor.geolocation;
-            return (
-              <Marker
-                key={index}
-                position={[latitude, longitude]}
-                icon={customIcon1}
-              >
-                <Popup>
-                  <strong>Dr: {doctor.fullName}</strong> <br />
-                  {doctor.specialization}
-                  <br />
-                  {doctor.clinicName} <br />
-                </Popup>
-              </Marker>
-            );
-          })} */}
+          {typeof customer?.expenses === "string" ? null : (
+            <>
+              {(customer?.expenses || []).map((expense) => {
+                const latitude = Number(expense.latitude);
+                const longitude = Number(expense.longitude);
+                return (
+                  <Marker
+                    key={expense.id}
+                    position={[latitude, longitude]}
+                    icon={customIcon1}
+                  >
+                    <Popup>
+                      <div className="flex flex-col space-y-1">
+                        <div className="flex gap-1">
+                          <span className="text-sm font-bold text-slate-600">
+                            Amount:
+                          </span>
+                          <span> ₹ {expense.amount}</span>
+                        </div>
+
+                        <div className="flex gap-1">
+                          <span className="text-sm font-bold text-slate-600">
+                            Address:
+                          </span>
+                          <span>{expense.address}</span>
+                        </div>
+                        <div className="flex gap-7">
+                          <span className="text-sm font-bold text-slate-600">
+                            Time:
+                          </span>
+                          <span>
+                            {new Date(expense.createdAt).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    </Popup>
+                  </Marker>
+                );
+              })}
+            </>
+          )}
+
           <CenterMap currentLocation={currentLocation} />
         </MapContainer>
       ) : (

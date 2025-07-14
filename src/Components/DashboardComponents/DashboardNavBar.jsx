@@ -1,12 +1,14 @@
 import { Avatar, Box, Button, Switch, Tooltip } from "@mui/material";
 import Logo from "../../assets/Logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../Redux/Auth/Action";
 import AddButton from "./AddButton";
 
 function DashboardNavBar({ setClickedComponent, setOpen }) {
 
     const dispatch = useDispatch();
+    const {auth}=useSelector((store)=>store)
+
     const handleLogout = async () => {
       dispatch(logout())
     }
@@ -21,7 +23,7 @@ function DashboardNavBar({ setClickedComponent, setOpen }) {
        </div>
       <div className="flex justify-between items-center gap-2">
         <p className="font-bold text-slate-700 font-serif">Logout</p> <Switch onClick={handleLogout} defaultChecked color="warning" />
-        <Tooltip title="Gowtham" placement="bottom">
+        <Tooltip title={auth.user} placement="bottom">
           <Avatar src="https://i.pravatar.cc/300" alt="Profile" className="cursor-pointer hover:scale-105 transition-transform duration-200" />
         </Tooltip>
       </div>

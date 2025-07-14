@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import LocationPickerMap from "./LocationPicker"; // You must have this component
 // import { getAddressFromCoordinates } from "../utils"; // Optional, if used separately
+import imageCompression from "browser-image-compression";
 
-function ExpenseUpdateForm({setOpen}) {
+function ExpenseUpdateForm({ setOpen }) {
   const [openLocationPicker, setOpenLocationPicker] = useState(false);
   const [pendingFormData, setPendingFormData] = useState(null);
 
@@ -16,19 +17,38 @@ function ExpenseUpdateForm({setOpen}) {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     if (name === "image") {
-      setFormData({ ...formData, image: files[0] });
+      handleImageCompression(files[0]);
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const data = new FormData();
+  const handleImageCompression = async (file) => {
+    if (!file) return;
+
+    const options = {
+      maxSizeMB: 0.2, 
+      maxWidthOrHeight: 194, 
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+
+      setFormData((prev) => ({ ...prev, image: compressedFile }));
+    } catch (error) {
+      console.error("Image compression error:", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setOpenLocationPicker(true);
+
     const { amount, purpose, note, image } = formData;
+    const data = new FormData();
 
     data.append("amount", Number(amount));
     data.append("purpose", purpose);
@@ -39,7 +59,6 @@ function ExpenseUpdateForm({setOpen}) {
     }
     setPendingFormData(data);
   };
-
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
@@ -54,7 +73,6 @@ function ExpenseUpdateForm({setOpen}) {
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
             Add Expense
           </h2>
-
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -80,6 +98,7 @@ function ExpenseUpdateForm({setOpen}) {
                 type="text"
                 name="purpose"
                 id="purpose"
+                maxLength={10}
                 value={formData.purpose}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"

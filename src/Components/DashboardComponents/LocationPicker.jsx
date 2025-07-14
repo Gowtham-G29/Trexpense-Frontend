@@ -90,7 +90,6 @@ const LocationPickerMap = ({ pendingFormData, setOpenLocationPicker ,setOpen }) 
           JSON.stringify(pendingLocation.lng)
         );
         pendingFormData.append("address", address);
-        // console.log("Final Form Data:", Array.from(pendingFormData.entries()));
         dispatch(setCustomerExpenses(pendingFormData));
       }
 

@@ -1,5 +1,5 @@
 import api from "../../Services/Api";
-import { GET_CUSTOMER_EXPENSES_FAILURE, GET_CUSTOMER_EXPENSES_REQUEST, GET_CUSTOMER_EXPENSES_SUCCESS } from "./ActionType";
+import { DELETE_CUSTOMER_EXPENSES_FAILURE, DELETE_CUSTOMER_EXPENSES_REQUEST, DELETE_CUSTOMER_EXPENSES_SUCCESS, GET_CUSTOMER_EXPENSES_FAILURE, GET_CUSTOMER_EXPENSES_REQUEST, GET_CUSTOMER_EXPENSES_SUCCESS } from "./ActionType";
 
 
 
@@ -39,5 +39,24 @@ export const setCustomerExpenses = (data) => async (dispatch) => {
             type: "SET_CUSTOMER_EXPENSES_FAILURE",
             payload: error.response?.data || "An error occurred while setting expenses.",
         });
+    }
+}
+
+export const deleteCustomerExpense = (expenseId) => async (dispatch) => {
+    console.log(expenseId)
+    dispatch({ type: DELETE_CUSTOMER_EXPENSES_REQUEST });
+    try {
+        const response = await api.delete("/deleteExpense", {
+            params: {
+                expenseId: expenseId
+            }
+        })
+        console.log(response);
+        dispatch({ type: DELETE_CUSTOMER_EXPENSES_SUCCESS, payload: response.data })
+        dispatch(getCustomerExpenses());
+
+    } catch (error) {
+        dispatch({ type: DELETE_CUSTOMER_EXPENSES_FAILURE, payload: error.response?.message })
+
     }
 }

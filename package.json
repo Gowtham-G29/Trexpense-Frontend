@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "@toolpad/core": "^0.16.0",
     "axios": "^1.10.0",
+    "browser-image-compression": "^2.0.2",
     "daisyui": "^5.0.46",
     "google-map-react": "^2.2.5",
     "leaflet": "^1.9.4",
