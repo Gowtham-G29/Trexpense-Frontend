@@ -6,18 +6,22 @@ export const MAPS_API_KEY = "AIzaSyB_DWw_0mUBfbmFbPNQw4qgUKZ4q61IXlU";
 
 const api = axios.create({ baseURL: API_BASE_URL });
 
-
 api.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem("jwt");
 
-    const jwt = localStorage.getItem("jwt");
+  if (jwt) {
+    config.headers["Authorization"] = `Bearer ${jwt}`;
+  }
 
-    if (jwt) {
-        config.headers["Authorization"] = `Bearer ${jwt}`;
-    }
-    return config;
+  // Only set JSON content type if not FormData
+  const isFormData = config.data instanceof FormData;
+  if (!isFormData) {
+    config.headers["Content-Type"] = "application/json";
+  }
+
+  return config;
 });
 
-api.defaults.headers.post["Content-Type"] = "application/json"
 
 export default api;
 
