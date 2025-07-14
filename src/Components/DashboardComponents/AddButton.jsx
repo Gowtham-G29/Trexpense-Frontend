@@ -1,14 +1,29 @@
-import AddTaskIcon from "@mui/icons-material/AddTask";
 import { Button, Tooltip } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-function AddButton({setOpen}) {
+function AddButton({ setOpen }) {
   return (
-    <Tooltip title="Add Expenses" placement="top">
-      <p className="bg-orange-400 rounded-xl p-3 shadow-3xl shadow-orange-500/50 cursor-pointer items-center justify-center hover:bg-orange-500"
-        onClick={() => setOpen(true)}>
-        <AddTaskIcon className="text-slate-700" />
-      </p>
-    </Tooltip>
+    <Button
+      variant="contained"
+      color="warning"
+      sx={{
+        borderRadius: "12px", 
+        p: 2,
+        boxShadow: "0px 20px 25px -5px rgba(249,115,22,0.5)",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "&:hover": {
+          backgroundColor: "orange.main",
+        },
+      }}
+      onClick={() => setOpen(true)}
+    >
+      <Tooltip title="Add Expenses" placement="top">
+          <AddCircleOutlineIcon className="text-slate-700" s />
+      </Tooltip>
+    </Button>
   );
 }
 
