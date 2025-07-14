@@ -29,7 +29,6 @@ export default api;
 export const sentContactUsMail = async (data) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/contactUs`, data);
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error("Error sending contact us mail:", error);
@@ -39,7 +38,6 @@ export const sentContactUsMail = async (data) => {
 
 
 export const getAddressFromCoordinates = async (lat, lng) => {
-    console.log("Fetching address for coordinates:", lat, lng);
 
   try {
     const response = await axios.post(

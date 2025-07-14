@@ -23,7 +23,6 @@ const MapComponent = () => {
 
   const { customer } = useSelector((store) => store);
 
-  console.log("cus", customer.expenses);
 
   useEffect(() => {
     if (navigator.geolocation) {

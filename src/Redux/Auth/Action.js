@@ -98,11 +98,9 @@ export const sendActivationMail=(userEmail)=>async(dispatch)=>{
                 email:userEmail
             }
         })
-        console.log("Response ",response.data);
         dispatch({type:SEND_ACTIVATION_MAIL_SUCCESS,payload:response.data})
         
     } catch (error) {
-        console.log(error)
          dispatch({
             type: SEND_ACTIVATION_MAIL_FAILURE,
             payload: error.response.data
@@ -144,7 +142,6 @@ export const sendResetPasswordMail=(email)=>async(dispatch)=>{
         dispatch({type:RESET_PASSWORD_MAIL_SEND_SUCCESS,payload:data})
         
     } catch (error) {
-        console.log(error)
 
         dispatch({type:RESET_PASSWORD_MAIL_SEND_FAILURE,payload:error.response.data})
     }
@@ -161,7 +158,6 @@ export const passwordReset=(email,resetToken,newPassword)=>async(dispatch)=>{
                 newPassword:newPassword
             }
         })
-        console.log(data);
         dispatch({type:RESET_PASSWORD_SUCCESS,payload:data})
         
     } catch (error) {

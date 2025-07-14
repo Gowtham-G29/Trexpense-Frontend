@@ -27,7 +27,6 @@ export const setCustomerExpenses = (data) => async (dispatch) => {
     try {
         const response = await api.post("/saveExpenses", data, {
         });
-        console.log("Expenses set successfully:", response.data);
         dispatch({
             type: "SET_CUSTOMER_EXPENSES_SUCCESS",
             payload: response.data,
@@ -43,7 +42,6 @@ export const setCustomerExpenses = (data) => async (dispatch) => {
 }
 
 export const deleteCustomerExpense = (expenseId) => async (dispatch) => {
-    console.log(expenseId)
     dispatch({ type: DELETE_CUSTOMER_EXPENSES_REQUEST });
     try {
         const response = await api.delete("/deleteExpense", {
@@ -51,7 +49,6 @@ export const deleteCustomerExpense = (expenseId) => async (dispatch) => {
                 expenseId: expenseId
             }
         })
-        console.log(response);
         dispatch({ type: DELETE_CUSTOMER_EXPENSES_SUCCESS, payload: response.data })
         dispatch(getCustomerExpenses());
 

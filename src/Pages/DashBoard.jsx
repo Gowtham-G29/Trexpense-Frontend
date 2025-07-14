@@ -57,7 +57,7 @@ function DashBoard() {
         )}
 
         {clickedComponent === "analytics" && (
-          <div className="relative flex-1 pt-20 pb-38 h-screen overflow-y-auto lg:ml-20 md:ml-1 md:pb-20">
+          <div className="relative flex-1 pt-10 pb-38 h-screen overflow-y-auto lg:ml-20 md:ml-1 md:pb-20">
             <AnalyticsBarChart />
           </div>
         )}

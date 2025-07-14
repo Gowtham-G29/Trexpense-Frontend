@@ -22,7 +22,7 @@ export default function ExpenseCardDialog({ setOpenDialog, data }) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -93,6 +93,6 @@ export default function ExpenseCardDialog({ setOpenDialog, data }) {
         </DialogContent>
         <DialogActions></DialogActions>
       </BootstrapDialog>
-    </React.Fragment>
+    </>
   );
 }
