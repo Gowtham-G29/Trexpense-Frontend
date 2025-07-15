@@ -8,11 +8,12 @@ export default function InstallPrompt() {
     const readyForInstall = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShow(true); 
+      setShow(true);
     };
     window.addEventListener("beforeinstallprompt", readyForInstall);
 
-    return () => window.removeEventListener("beforeinstallprompt", readyForInstall);
+    return () =>
+      window.removeEventListener("beforeinstallprompt", readyForInstall);
   }, []);
 
   const handleInstall = async () => {
@@ -31,14 +32,16 @@ export default function InstallPrompt() {
         onClick={handleInstall}
         style={{
           position: "fixed",
-          bottom: "20px",
-          right: "20px",
+          top: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
           padding: "12px 20px",
           backgroundColor: "#1976d2",
           color: "#fff",
           border: "none",
           borderRadius: "8px",
           cursor: "pointer",
+          zIndex: 9999, 
         }}
       >
         Install App
