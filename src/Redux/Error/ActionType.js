@@ -1,0 +1,2 @@
+export const ERROR_FETCH="ERROR_FETCH";
+export const ERROR_CLOSE="ERROR_CLOSE";
