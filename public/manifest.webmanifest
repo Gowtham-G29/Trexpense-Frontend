@@ -1,0 +1,15 @@
+{
+  "short_name": "Trexpense",
+  "name": "Trexpense App",
+  "icons": [
+    {
+      "src": "Logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#FFA500",
+  "background_color": "#ffffff"
+}

@@ -12,13 +12,12 @@ import ForgotPasswordPage from "./Components/ForgotPasswordPage";
 import ResetPasswordPage from "./Components/ResetPasswordPage";
 import { getCustomerData, getCustomerExpenses } from "./Redux/Customer/Action";
 import ErrorSnackBar from "./Components/DashboardComponents/ErrorSnackBar";
+import InstallPrompt from "./Components/InstallPrompt";
 
 function App() {
-  const { auth,error} = useSelector((store) => store);
+  const { auth, error, customer } = useSelector((store) => store);
 
   const dispatch = useDispatch();
-
-
 
   useEffect(() => {
     dispatch(getUser());
@@ -26,13 +25,13 @@ function App() {
     dispatch(getCustomerData());
   }, [auth.jwt]);
 
- 
-
+  console.log(customer);
 
   return (
     <>
-    {error.isError&&<ErrorSnackBar/>}
-     
+      {error.isError && <ErrorSnackBar />}
+      <InstallPrompt />
+
       <BrowserRouter>
         <Routes>
           {auth.data?.isActive ? (
