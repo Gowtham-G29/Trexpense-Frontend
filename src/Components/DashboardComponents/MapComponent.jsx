@@ -42,7 +42,7 @@ const MapComponent = () => {
     } else {
       setCurrentLocation([0, 0]);
     }
-  }, [currentLocation,dispatch]);
+  }, []);
 
   const customIcon1 = new L.Icon({
     iconUrl: Money,

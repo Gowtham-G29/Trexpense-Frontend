@@ -64,15 +64,18 @@ function ExpenseUpdateForm({ setOpen, setOpenSuccessSnackBar }) {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
       {openLocationPicker ? (
-        <LocationPickerMap
-          setOpenLocationPicker={setOpenLocationPicker}
-          pendingFormData={pendingFormData}
-          setOpen={setOpen}
-          setOpenSuccessSnackBar={setOpenSuccessSnackBar}
-        />
+        <>
+          <p className="font-serif text-md flex justify-center items-center pb-2 ">Mark expensed Location !</p>
+          <LocationPickerMap
+            setOpenLocationPicker={setOpenLocationPicker}
+            pendingFormData={pendingFormData}
+            setOpen={setOpen}
+            setOpenSuccessSnackBar={setOpenSuccessSnackBar}
+          />
+        </>
       ) : (
         <>
-          <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+          <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6 font-serif">
             Add Expense
           </h2>
 
@@ -118,32 +121,22 @@ function ExpenseUpdateForm({ setOpen, setOpenSuccessSnackBar }) {
                 value={formData.note}
                 onChange={handleChange}
                 rows="3"
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                className="w-full px-4 py-1 border rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none resize-none"
                 placeholder="Additional information"
                 required
               />
             </div>
 
-            <div className="mb-4 flex flex-col items-center justify-between cursor-pointer">
-              <Button
-                variant="outlined"
-                component="label"
-                sx={{
-                  fontWeight: 600,
-                  color: "#1976d2",
-                  borderColor: "#1976d2",
-
-                  ":hover": {
-                    backgroundColor: "#1976d2",
-                  },
-                }}
-              >
+            <div className="mb-4 flex flex-col items-center justify-center cursor-pointer">
+              <Button variant="contained" component="label">
                 <label
                   htmlFor="image"
                   className=" flex justify-center items-center text-gray-700 mb-1"
                 >
-                  <FileUploadIcon className="inline mr-2 text-blue-400 text-3xl hover:text-white" />
-                  Upload Image
+                  <div className="flex justify-between items-center gap-1 p-0">
+                    <FileUploadIcon className=" text-white text-2xl " />
+                    <p className="text-white font-bold pt-1">Image</p>
+                  </div>
                 </label>
               </Button>
               <input
