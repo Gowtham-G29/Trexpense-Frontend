@@ -7,6 +7,7 @@ import L from "leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import { ERROR_FETCH } from "../../Redux/Error/ActionType";
+import currentLocation2 from "../../assets/currentLocation2.png"
 
 const CenterMap = ({ currentLocation }) => {
   const map = useMap();
@@ -50,6 +51,12 @@ const MapComponent = () => {
     iconAnchor: [15, 50],
   });
 
+    const customIcon2 = new L.Icon({
+    iconUrl: currentLocation2,
+    iconSize: [40, 60],
+    iconAnchor: [15, 50],
+  });
+
 
   return (
     <div style={{ height: "82vh", width: "100%" }}>
@@ -63,7 +70,7 @@ const MapComponent = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={currentLocation}>
+          <Marker position={currentLocation} icon={customIcon2}>
             <Popup>
               You are here <br />
             </Popup>

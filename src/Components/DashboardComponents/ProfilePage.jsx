@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Avatar, Button, Card } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -10,6 +10,7 @@ import { ERROR_FETCH } from "../../Redux/Error/ActionType";
 function ProfilePage({ setOpen }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const { customer } = useSelector((store) => store);
+  const [recordCount, setRecordCount] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -40,6 +41,11 @@ function ProfilePage({ setOpen }) {
     }
   };
 
+  useEffect(() => {
+    if (typeof customer?.expenses === "object") {
+      setRecordCount(customer?.expenses.length);
+    }
+  },[customer?.expenses.length]);
 
   return (
     <Box
@@ -126,7 +132,7 @@ function ProfilePage({ setOpen }) {
               boxShadow: 2,
             }}
           >
-            Expense Records: {customer?.expenses.length}
+            Expense Records: {recordCount}
           </Typography>
         </Box>
       </Card>

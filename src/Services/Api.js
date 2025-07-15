@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = "https://trexpense-backend.onrender.com";
 export const MAPS_API_KEY = "AIzaSyB_DWw_0mUBfbmFbPNQw4qgUKZ4q61IXlU";
 
 
@@ -13,7 +13,6 @@ api.interceptors.request.use((config) => {
     config.headers["Authorization"] = `Bearer ${jwt}`;
   }
 
-  // Only set JSON content type if not FormData
   const isFormData = config.data instanceof FormData;
   if (!isFormData) {
     config.headers["Content-Type"] = "application/json";

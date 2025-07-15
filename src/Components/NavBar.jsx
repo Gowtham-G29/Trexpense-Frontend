@@ -98,13 +98,13 @@ const NavBar = () => {
               <div className="px-1 py-8">
                 <div className="flex flex-col justify-center items-center gap-3">
                   <a
-                    href="#"
+                    href="/"
                     className="p-3 text-base font-extrabold text-gray-900 hover:text-orange-500 rounded-xl font-serif"
                   >
                     Features
                   </a>
                   <a
-                    href="#"
+                    href="/"
                     className="p-3 text-base font-extrabold text-gray-900  hover:text-orange-500  rounded-xl font-serif"
                   >
                     contact us
@@ -132,9 +132,6 @@ const NavBar = () => {
           )}
         </div>
       </header>
-
-      {/* Main Hero section remains unchanged */}
-      {/* Paste your <section className="pt-12 ..."> code here as is */}
     </div>
   );
 };

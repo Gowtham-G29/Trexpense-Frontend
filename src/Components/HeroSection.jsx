@@ -1,6 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import HeroImage from "../assets/HeroImage.jpg";
 
+
 function HeroSection() {
+
+  const navigate=useNavigate();
+
   return (
     <section>
       <div className="relative py-48 bg-orange-50 sm:py-32 lg:py-32">
@@ -20,7 +25,7 @@ function HeroSection() {
             <p className="max-w-lg mx-auto mt-6 text-base font-bold leading-7 text-black font-serif lg:p-12 sm:p-14 p-8">
               <button className="bg-orange-400 rounded-2xl">
                 <div className="flex items-center justify-center">
-                  <p className="p-3">Explore </p>
+                  <p className="p-3" onClick={()=>navigate("/login")}>Explore </p>
 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
