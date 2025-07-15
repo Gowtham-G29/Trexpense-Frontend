@@ -6,8 +6,9 @@ const initialState = {
     loading: false,
     error: null,
     setNewExpenses: false,
-    deleteExpense:false,
-    customerData:null
+    deleteExpense: false,
+    customerData: null,
+    openErrorSnackBar: false
 };
 
 
@@ -28,7 +29,9 @@ export const customerReducer = (state = initialState, action) => {
                 ...state,
                 expenses: action.payload,
                 loading: false,
-                setNewExpenses:false
+                setNewExpenses: false,
+                openErrorSnackBar: false
+
             };
         case GET_CUSTOMER_EXPENSES_FAILURE:
         case SET_CUSTOMER_EXPENSES_FAILURE:
@@ -39,32 +42,42 @@ export const customerReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+                openErrorSnackBar: true
+
             };
         case SET_CUSTOMER_EXPENSES_SUCCESS:
             return {
                 ...state,
                 setNewExpenses: true,
                 loading: false,
+                openErrorSnackBar: false
+
             };
         case DELETE_CUSTOMER_EXPENSES_SUCCESS:
-            return{
+            return {
                 ...state,
-                deleteExpense:true,
-                error:null,
-                loading:false
+                deleteExpense: true,
+                error: null,
+                loading: false,
+                openErrorSnackBar: false
+
             }
         case GET_CUSTOMER_DETAILS_SUCCESS:
-            return{
+            return {
                 ...state,
-                error:null,
-                loading:false,
-                customerData:action.payload
+                error: null,
+                loading: false,
+                customerData: action.payload,
+                openErrorSnackBar: false
+
             }
         case UPDATE_CUSTOMER_PROFILE_SUCCESS:
-            return{
+            return {
                 ...state,
-                error:null,
-                loading:false
+                error: null,
+                loading: false,
+                openErrorSnackBar: false
+
             }
         default:
             return state;

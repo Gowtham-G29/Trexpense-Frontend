@@ -20,6 +20,8 @@ import currentLocationMarker from "../../assets/currentLocation2.png";
 import { getAddressFromCoordinates } from "../../Services/Api";
 import { useDispatch } from "react-redux";
 import { setCustomerExpenses } from "../../Redux/Customer/Action";
+import Loader from "../Loader";
+import { ERROR_FETCH } from "../../Redux/Error/ActionType";
 
 // Custom icon for clicked location
 const clickedLocationIcon = new L.Icon({
@@ -56,7 +58,10 @@ const LocationPickerMap = ({
           const { latitude, longitude } = position.coords;
           setCurrentPosition([latitude, longitude]);
         },
-        (error) => console.error("Error getting location:", error)
+        (error) => {
+          console.error("Error getting location:", error);
+          dispatch({ type: ERROR_FETCH });
+        }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -101,7 +106,7 @@ const LocationPickerMap = ({
   };
 
   if (!currentPosition) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (

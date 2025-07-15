@@ -6,6 +6,7 @@ import NavBarAuthPage from "../Components/NavBarAuthPage";
 import Loader from "../Components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { login} from "../Redux/Auth/Action";
+import ErrorSnackBar from "../Components/DashboardComponents/ErrorSnackBar";
 
 function LoginPage() {
 
@@ -33,6 +34,7 @@ function LoginPage() {
     <>
       <div className="relative min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden">
         <NavBarAuthPage />
+        {/* {error.isError&&<ErrorSnackBar/>} */}
         {auth.loading&&<Loader/>}
         <img
           className="absolute inset-0 w-full h-full object-cover object-center z-0 bg-black/30 "

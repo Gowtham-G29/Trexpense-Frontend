@@ -28,6 +28,7 @@ export default function ExpenseCard({ expense ,setOpenDeleteSnackBar}) {
   };
 
   const handleDelete = () => {
+    
     dispatch(deleteCustomerExpense(expense.id));
     setOpenDeleteSnackBar(true);
     handleMenuClose();

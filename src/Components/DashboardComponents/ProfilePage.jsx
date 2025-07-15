@@ -5,6 +5,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import imageCompression from "browser-image-compression";
 import { updateUserProfile } from "../../Redux/Customer/Action";
 import Loader from "../Loader";
+import { ERROR_FETCH } from "../../Redux/Error/ActionType";
 
 function ProfilePage({ setOpen }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,7 +40,6 @@ function ProfilePage({ setOpen }) {
     }
   };
 
-  console.log(customer?.customerData?.expenses.length);
 
   return (
     <Box

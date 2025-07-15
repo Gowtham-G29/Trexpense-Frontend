@@ -7,6 +7,7 @@ import NavBarAuthPage from "../Components/NavBarAuthPage";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../Redux/Auth/Action";
 import Loader from "../Components/Loader";
+import ErrorSnackBar from "../Components/DashboardComponents/ErrorSnackBar";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function RegisterPage() {
   if (auth.activationMailSent) {
     navigate("/regSuccessPage");
   }
+
 
   return (
     <div className="relative min-h-screen bg-gray-100 flex items-center justify-center overflow-hidden">

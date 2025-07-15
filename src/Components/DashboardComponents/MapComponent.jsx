@@ -4,7 +4,9 @@ import "leaflet/dist/leaflet.css";
 
 import Money from "../../assets/money.png";
 import L from "leaflet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader";
+import { ERROR_FETCH } from "../../Redux/Error/ActionType";
 
 const CenterMap = ({ currentLocation }) => {
   const map = useMap();
@@ -20,9 +22,9 @@ const CenterMap = ({ currentLocation }) => {
 
 const MapComponent = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
+  const dispatch=useDispatch()
 
-  const { customer } = useSelector((store) => store);
-
+  const { customer} = useSelector((store) => store);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -32,6 +34,7 @@ const MapComponent = () => {
           setCurrentLocation([latitude, longitude]);
         },
         (error) => {
+          dispatch({type:ERROR_FETCH})
           console.error("Error getting location", error);
           setCurrentLocation([0, 0]);
         }
@@ -46,6 +49,7 @@ const MapComponent = () => {
     iconSize: [40, 60],
     iconAnchor: [15, 50],
   });
+
 
   return (
     <div style={{ height: "82vh", width: "100%" }}>
@@ -109,7 +113,7 @@ const MapComponent = () => {
           <CenterMap currentLocation={currentLocation} />
         </MapContainer>
       ) : (
-        <p>hello</p>
+        <Loader />
       )}
     </div>
   );

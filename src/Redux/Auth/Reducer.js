@@ -29,9 +29,10 @@ const initialState = {
     jwt: null,
     data: null,
     activate: false,
-    activationMailSent:false,
-    passwordResetMailSent:false,
-    passwordResetSuccessful:false
+    activationMailSent: false,
+    passwordResetMailSent: false,
+    passwordResetSuccessful: false,
+
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -64,6 +65,7 @@ export const authReducer = (state = initialState, action) => {
                 error: null,
                 jwt: action.payload.jwt,
                 data: action.payload,
+
             };
 
         case CONFIRM_ACTIVATION_SUCCESS:
@@ -72,6 +74,7 @@ export const authReducer = (state = initialState, action) => {
                 loading: false,
                 error: null,
                 activate: true,
+
             };
 
         case GET_USER_SUCCESS:
@@ -87,11 +90,13 @@ export const authReducer = (state = initialState, action) => {
         case LOGIN_FAILURE:
         case GET_USER_FAILURE:
         case RESET_PASSWORD_MAIL_SEND_FAILURE:
+        case RESET_PASSWORD_FAILURE:
             return {
                 ...state,
                 loading: false,
                 error: action.payload,
-                data: action.payload,
+                data: null,
+
             };
 
         case CONFIRM_ACTIVATION_FAILURE:
@@ -100,22 +105,25 @@ export const authReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.payload,
                 activate: false,
+
             };
 
         case SEND_ACTIVATION_MAIL_SUCCESS:
-            return{
+            return {
                 ...state,
-                activationMailSent:true
+                activationMailSent: true,
+
             }
         case RESET_PASSWORD_MAIL_SEND_SUCCESS:
-            return{
+            return {
                 ...state,
-                passwordResetMailSent:true,
-                loading:false
+                passwordResetMailSent: true,
+                loading: false,
             }
-
         case LOGOUT:
-            return initialState;
+            return {
+               ...initialState,
+            } 
 
         default:
             return state;

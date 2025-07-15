@@ -11,6 +11,7 @@ import ExpenseSavedSnackbars from "../Components/DashboardComponents/ExpenseSave
 
 import ExpenseDeleteSnackbars from "../Components/DashboardComponents/ExpenseDeleteSnackBar";
 import ProfileUpdateSuccessSnackBar from "../Components/DashboardComponents/ProfileUpdateSuccessSnackBar";
+import ErrorSnackBar from "../Components/DashboardComponents/ErrorSnackBar";
 
 function DashBoard() {
   const [clickedComponent, setClickedComponent] = useState("map");
@@ -20,7 +21,8 @@ function DashBoard() {
     useState(false);
   const [open, setOpen] = useState(false);
 
-  const { customer } = useSelector((store) => store);
+  const { customer,error } = useSelector((store) => store);
+
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
@@ -106,6 +108,8 @@ function DashBoard() {
             open={openProfileUpdateSnackBar}
           />
         )}
+
+        {error.isError && <ErrorSnackBar />}
       </div>
     </div>
   );

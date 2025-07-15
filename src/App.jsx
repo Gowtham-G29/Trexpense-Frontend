@@ -11,48 +11,58 @@ import MailSentSuccessPage from "./Components/MailSendSuccessPage";
 import ForgotPasswordPage from "./Components/ForgotPasswordPage";
 import ResetPasswordPage from "./Components/ResetPasswordPage";
 import { getCustomerData, getCustomerExpenses } from "./Redux/Customer/Action";
+import ErrorSnackBar from "./Components/DashboardComponents/ErrorSnackBar";
 
 function App() {
-  const { auth ,customer} = useSelector((store) => store);
+  const { auth,error} = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
-  console.log(auth);
-  console.log("customer",customer);
+
 
   useEffect(() => {
     dispatch(getUser());
     dispatch(getCustomerExpenses());
-    dispatch(getCustomerData())
+    dispatch(getCustomerData());
   }, [auth.jwt]);
 
+ 
+
+
   return (
-    <BrowserRouter>
-      <Routes>
-        {auth.data?.isActive ? (
-          <>
-            <Route path="/" element={<DashBoard />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<LandPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/activatePage"
-              element={<ActivationConfirmationPage />}
-            />
-            <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-            <Route path="/resetPassword" element={<ResetPasswordPage />} />
-            {auth.activationMailSent && (
-              <Route path="/regSuccessPage" element={<MailSentSuccessPage />} />
-            )}
-            <Route path="*" element={<Navigate to="/" />} />
-          </>
-        )}
-      </Routes>
-    </BrowserRouter>
+    <>
+    {error.isError&&<ErrorSnackBar/>}
+     
+      <BrowserRouter>
+        <Routes>
+          {auth.data?.isActive ? (
+            <>
+              <Route path="/" element={<DashBoard />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<LandPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route
+                path="/activatePage"
+                element={<ActivationConfirmationPage />}
+              />
+              <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+              <Route path="/resetPassword" element={<ResetPasswordPage />} />
+              {auth.activationMailSent && (
+                <Route
+                  path="/regSuccessPage"
+                  element={<MailSentSuccessPage />}
+                />
+              )}
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
