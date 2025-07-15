@@ -15,7 +15,7 @@ import ErrorSnackBar from "./Components/DashboardComponents/ErrorSnackBar";
 import InstallPrompt from "./Components/InstallPrompt";
 
 function App() {
-  const { auth, error, customer } = useSelector((store) => store);
+  const { auth, error} = useSelector((store) => store);
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ function App() {
     dispatch(getCustomerData());
   }, [auth.jwt]);
 
-  console.log(customer);
+  
 
   return (
     <>

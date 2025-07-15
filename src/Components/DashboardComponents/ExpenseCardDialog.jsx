@@ -40,42 +40,48 @@ export default function ExpenseCardDialog({ setOpenDialog, data }) {
             position: "absolute",
             right: 8,
             top: 8,
-            color:"red",
+            color: "red",
           }}
         >
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
           <div className="grid grid-cols-1 gap-6">
-            <div className="flex gap-4">
-              <p className="w-40 text-slate-600 font-bold">Amount Spend</p>
-              <p className="text-black font-semibold">: ₹ {data.amount}</p>
+            {/* Amount */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="sm:w-40 text-slate-600 font-bold">Amount Spend</p>
+              <p className="text-black font-semibold">₹ {data.amount}</p>
             </div>
 
-            <div className="flex gap-4">
-              <p className="w-40 text-slate-600 font-bold">Purpose</p>
-              <p className="text-black font-semibold">: {data.purpose}</p>
+            {/* Purpose */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="sm:w-40 text-slate-600 font-bold">Purpose</p>
+              <p className="text-black font-semibold">{data.purpose}</p>
             </div>
 
-            <div className="flex gap-4">
-              <p className="w-40 text-slate-600 font-bold">Note</p>
-              <p className="text-black font-semibold ">: {data.note}</p>
+            {/* Note */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="sm:w-40 text-slate-600 font-bold">Note</p>
+              <p className="text-black font-semibold">{data.note}</p>
             </div>
 
-            <div className="flex gap-4">
-              <p className="w-40 text-slate-600 font-bold">Location</p>
-              <p className="text-black font-semibold pl-24 lg:pl-16 ">: {data.address}</p>
+            {/* Location */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="sm:w-40 text-slate-600 font-bold">Location</p>
+              <p className="text-black font-semibold">{data.address}</p>
             </div>
 
-            <div className="flex gap-4">
-              <p className="w-40 text-slate-600 font-bold">Date & Time</p>
+            {/* Date & Time */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <p className="sm:w-40 text-slate-600 font-bold">Date & Time</p>
               <p className="text-black font-semibold">
-                : {new Date(data.createdAt).toLocaleString()}
+                {new Date(data.createdAt).toLocaleString()}
               </p>
             </div>
 
-            <div className="flex gap-4 items-start col-span-full">
-              <p className="w-40 text-slate-600 font-bold">Media</p>
+            {/* Media */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-start">
+              <p className="sm:w-40 text-slate-600 font-bold">Media</p>
               <Card sx={{ maxWidth: 300 }}>
                 <CardMedia
                   component="img"
@@ -91,6 +97,7 @@ export default function ExpenseCardDialog({ setOpenDialog, data }) {
             </div>
           </div>
         </DialogContent>
+
         <DialogActions></DialogActions>
       </BootstrapDialog>
     </>
