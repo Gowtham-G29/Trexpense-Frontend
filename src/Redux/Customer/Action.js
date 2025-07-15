@@ -19,7 +19,7 @@ export const getCustomerExpenses = () => async (dispatch) => {
             type: GET_CUSTOMER_EXPENSES_FAILURE,
             payload: error.response?.data || "An error occurred while fetching expenses.",
         });
-        dispatch({ type: ERROR_FETCH })
+        // dispatch({ type: ERROR_FETCH })
     }
 }
 
@@ -70,7 +70,7 @@ export const getCustomerData = () => async (dispatch) => {
         const { data } = await api.get("/getUserProfile",);
         dispatch({ type: GET_CUSTOMER_DETAILS_SUCCESS, payload: data })
     } catch (error) {
-        dispatch({ type: ERROR_FETCH })
+        // dispatch({ type: ERROR_FETCH })
         dispatch({
             type: GET_CUSTOMER_DETAILS_FAILURE,
             payload: error?.response?.message

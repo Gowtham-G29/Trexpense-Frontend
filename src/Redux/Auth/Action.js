@@ -82,7 +82,7 @@ export const getUser = () => async (dispatch) => {
 
     } catch (error) {
         dispatch({ type: GET_USER_FAILURE, payload: error.message })
-        dispatch({ type: ERROR_FETCH })
+        // dispatch({ type: ERROR_FETCH })
 
 
     }

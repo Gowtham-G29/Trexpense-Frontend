@@ -16,7 +16,7 @@ const NavBar = () => {
               </a>
             </div>
 
-            <div className="flex lg:hidden">
+            <div className="flex lg:hidden cursor-pointer">
               <button
                 type="button"
                 className="text-gray-900"
@@ -25,7 +25,7 @@ const NavBar = () => {
               >
                 {expanded ? (
                   <svg
-                    className="w-7 h-7"
+                    className="w-7 h-7 cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -40,7 +40,7 @@ const NavBar = () => {
                   </svg>
                 ) : (
                   <svg
-                    className="w-7 h-7"
+                    className="w-7 h-7 cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -57,7 +57,6 @@ const NavBar = () => {
               </button>
             </div>
 
-            {/* Desktop nav */}
             <div className="hidden lg:flex lg:ml-16 lg:items-center lg:justify-center lg:space-x-10 xl:space-x-16">
               <a
                 href="#"
@@ -94,7 +93,6 @@ const NavBar = () => {
             </div>
           </div>
 
-          {/* Mobile nav */}
           {expanded && (
             <nav className="lg:hidden">
               <div className="px-1 py-8">
